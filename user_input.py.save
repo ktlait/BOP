@@ -1,0 +1,16 @@
+import psycopg2
+
+try: 
+	connect_str = "dbname='bopdb' user='kate' host='localhost' " + \ "password='16486566Bess'"
+	conn = psycopg2.connect(connect_str)
+	cursor = conn.cursor()
+	cursor.execute("""CREATE TABLE images_from_user (image_id INT PRIMARY KEY NOT NULL,
+	filepath TEXT NOT NULL, time TIME NOT NULL, date DATE NOT NULL, geolocation POINT NOT NULL);
+	""")
+	cursor.execute("""SELECT * from images_from_user""")
+	rows = cursor.fetchal()
+	print(rows)
+except Exception as e:
+	print("Uh oh, can't connect.")
+	print(e)
+

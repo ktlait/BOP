@@ -1,0 +1,28 @@
+from PIL import Image
+import psycopg2
+
+def calculate_percentage(counts):
+    percentages = []
+    points = 0
+    size = len(counts)
+    for line in counts:
+        points = points + line
+    for line in counts:
+        percent = (line/points)*100
+        percentages.append(percent)
+    print(percentages)
+try:
+    connect_str = "dbname='bopdb' user='postgres' host='localhost' " + \
+                  "password='cs163278*cs'"
+    connection = psycopg2.connect(connect_str)
+    cursor = connection.cursor()
+    cursor.execute("""SELECT * FROM analysed_images""")
+    for row in cursor:
+        print(row[0])
+        calculate_percentage(row[2])
+    connection.close()
+    cursor.close()
+
+except Exception as e:
+    print(e)
+
